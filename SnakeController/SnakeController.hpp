@@ -40,6 +40,7 @@ private:
         int ttl;
     };
 	bool isLost(Segment*);
+	void eatFood();
 
     IPort& m_displayPort;
     IPort& m_foodPort;
