@@ -41,6 +41,7 @@ private:
     };
 	bool isLost(Segment*);
 	void eatFood();
+	bool isOutOfMap(Segment*);
 
     IPort& m_displayPort;
     IPort& m_foodPort;
