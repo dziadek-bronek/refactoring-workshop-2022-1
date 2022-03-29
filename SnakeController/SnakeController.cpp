@@ -78,6 +78,13 @@ void Controller::eatFood() {
 	m_foodPort.send(std::make_unique<EventT<FoodReq>>());
 }
 
+bool Controller::isOutOfMap(Segment* newHead) {
+	return (newHead->x < 0
+			or newHead->y < 0
+			or newHead->x >= m_mapDimension.first
+			or newHead->y >= m_mapDimension.second);
+}
+
 void Controller::receive(std::unique_ptr<Event> e)
 {
     try {
@@ -95,9 +102,7 @@ void Controller::receive(std::unique_ptr<Event> e)
         if (not lost) {
             if (std::make_pair(newHead.x, newHead.y) == m_foodPosition) {
 				eatFood();
-            } else if (newHead.x < 0 or newHead.y < 0 or
-                       newHead.x >= m_mapDimension.first or
-                       newHead.y >= m_mapDimension.second) {
+            } else if (isOutOfMap(&newHead)) {
                 m_scorePort.send(std::make_unique<EventT<LooseInd>>());
                 lost = true;
             } else {
